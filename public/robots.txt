@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://climeq-centromedicomultidisciplinar.lovable.app/sitemap.xml

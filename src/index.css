@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Tokens de interface derivados da identidade Climeq */
+    --borda: 221 229 225;
+    --foco: 10 112 204;
+
+    /* Escala tipográfica fluida */
+    --passo--1: clamp(0.875rem, 0.84rem + 0.17vw, 0.95rem);
+    --passo-0: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+    --passo-1: clamp(1.125rem, 1.06rem + 0.33vw, 1.25rem);
+    --passo-2: clamp(1.35rem, 1.2rem + 0.75vw, 1.75rem);
+    --passo-3: clamp(1.75rem, 1.45rem + 1.5vw, 2.5rem);
+    --passo-4: clamp(2.125rem, 1.6rem + 2.6vw, 3.5rem);
+    --passo-5: clamp(2.5rem, 1.7rem + 4vw, 4.5rem);
+  }
+
+  * {
+    @apply border-pedra-200;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* compensa o header fixo ao navegar por âncoras */
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-papel font-sans text-pedra-700 antialiased;
+    font-size: var(--passo-0);
+    line-height: 1.65;
+    overflow-x: hidden;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display text-tinta;
+    font-variation-settings: "SOFT" 0, "WONK" 0;
+    letter-spacing: -0.018em;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  p { text-wrap: pretty; }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--foco));
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Remove o anel apenas quando o foco veio do mouse */
+  :focus:not(:focus-visible) { outline: none; }
+
+  ::selection {
+    background: #B4E5CC;
+    color: #042317;
+  }
+}
+
+@layer components {
+  .secao {
+    @apply py-20 sm:py-24 lg:py-28;
+  }
+
+  .olho {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-verde-700;
+  }
+
+  .titulo-secao {
+    font-size: var(--passo-3);
+  }
+
+  /* Vinheta de textura usada como fundo de seções escuras */
+  .textura-serra {
+    background-image:
+      radial-gradient(ellipse 80% 55% at 50% -10%, rgba(42, 154, 99, 0.28), transparent 70%),
+      radial-gradient(ellipse 60% 50% at 85% 110%, rgba(10, 112, 204, 0.22), transparent 70%);
+  }
+}
+
+@layer utilities {
+  .quebra-equilibrada { text-wrap: balance; }
+  .medida { max-width: 68ch; }
+  .medida-curta { max-width: 52ch; }
+}
+
+/* ---- Revelação progressiva ---- */
+[data-revelar] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition-delay: var(--atraso, 0ms);
+}
+
+[data-revelar="visivel"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* A página permanece completa e elegante sem nenhuma animação. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-revelar] { opacity: 1; transform: none; }
+}
